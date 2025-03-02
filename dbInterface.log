@@ -1,0 +1,61 @@
+Latest Entries:
+(22, 'Smart Washing Machine', '2025-03-02 14:52:28', 500.0)
+(29, 'Smart Refrigerator', '2025-03-02 14:52:28', 200.0)
+(36, 'Smart LED Bulb', '2025-03-02 14:52:28', 10.0)
+(23, 'Smart Washing Machine', '2025-03-02 08:52:28', 550.0)
+(30, 'Smart Refrigerator', '2025-03-02 08:52:28', 250.0)
+(37, 'Smart LED Bulb', '2025-03-02 08:52:28', 60.0)
+(24, 'Smart Washing Machine', '2025-03-02 02:52:28', 600.0)
+(31, 'Smart Refrigerator', '2025-03-02 02:52:28', 300.0)
+(38, 'Smart LED Bulb', '2025-03-02 02:52:28', 110.0)
+(25, 'Smart Washing Machine', '2025-03-01 14:52:28', 650.0)
+(32, 'Smart Refrigerator', '2025-03-01 14:52:28', 350.0)
+(39, 'Smart LED Bulb', '2025-03-01 14:52:28', 160.0)
+(26, 'Smart Washing Machine', '2025-02-28 14:52:28', 700.0)
+(33, 'Smart Refrigerator', '2025-02-28 14:52:28', 400.0)
+(40, 'Smart LED Bulb', '2025-02-28 14:52:28', 210.0)
+(27, 'Smart Washing Machine', '2025-02-23 14:52:28', 750.0)
+(34, 'Smart Refrigerator', '2025-02-23 14:52:28', 450.0)
+(41, 'Smart LED Bulb', '2025-02-23 14:52:28', 260.0)
+(28, 'Smart Washing Machine', '2025-01-31 14:52:28', 800.0)
+(35, 'Smart Refrigerator', '2025-01-31 14:52:28', 500.0)
+(42, 'Smart LED Bulb', '2025-01-31 14:52:28', 310.0)
+
+Real-Time Power Consumption (Last 1 Minute) per Device:
+Smart LED Bulb: 10.0 Watts
+Smart Refrigerator: 200.0 Watts
+Smart Washing Machine: 500.0 Watts
+
+Average Power Usage Per Device (Last 24 Hours):
+Smart LED Bulb: 85.0 Watts
+Smart Refrigerator: 275.0 Watts
+Smart Washing Machine: 575.0 Watts
+
+Peak Usage Period (Last 24 Hours):
+('2025-03-01 14:52:28', 1160.0)
+
+Highest Power Consuming Devices:
+Last 24 Hours: Smart Washing Machine with 2300.0 Watts
+Last Week: Smart Washing Machine with 3750.0 Watts
+Last Month: Smart Washing Machine with 4550.0 Watts
+
+Power Consumption Trend (Last 24 Hours - Hourly):
+('Smart LED Bulb', '2025-03-01 14:00:00', 160.0)
+('Smart Refrigerator', '2025-03-01 14:00:00', 350.0)
+('Smart Washing Machine', '2025-03-01 14:00:00', 650.0)
+('Smart LED Bulb', '2025-03-02 02:00:00', 110.0)
+('Smart Refrigerator', '2025-03-02 02:00:00', 300.0)
+('Smart Washing Machine', '2025-03-02 02:00:00', 600.0)
+('Smart LED Bulb', '2025-03-02 08:00:00', 60.0)
+('Smart Refrigerator', '2025-03-02 08:00:00', 250.0)
+('Smart Washing Machine', '2025-03-02 08:00:00', 550.0)
+('Smart LED Bulb', '2025-03-02 14:00:00', 10.0)
+('Smart Refrigerator', '2025-03-02 14:00:00', 200.0)
+('Smart Washing Machine', '2025-03-02 14:00:00', 500.0)
+
+Daily Power Usage Comparison (Last 7 Days):
+('2025-03-02', 2580.0)
+('2025-03-01', 1160.0)
+('2025-02-28', 1310.0)
+('2025-02-23', 1460.0)
+Database cleared successfully.
