@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latest Power Consumption Entries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f2f5;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #e8e8e8;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Latest Power Consumption Entries (Auto Refresh Every 5s)</h2>
+    <table id="latest-entries-table">
+        <thead>
+            <tr>
+                <th>Device ID</th>
+                <th>Appliance Name</th>
+                <th>Power Consumption (Watts)</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="latest-entries-body">
+            <!-- Dynamic entries go here -->
+        </tbody>
+    </table>
+
+    <script>
+        function loadLatestEntries() {
+            fetch('/api/latest')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('latest-entries-body');
+                    tableBody.innerHTML = ''; // Clear existing rows
+
+                    // Only take the latest 5 entries (they are already sorted DESC)
+                    data.slice(0, 5).forEach(entry => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${entry.deviceId}</td>
+                            <td>${entry.applianceName}</td>
+                            <td>${entry.powerConsumption}</td>
+                            <td>${entry.timeStamp}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching latest entries:', error);
+                });
+        }
+
+        // Initial load
+        loadLatestEntries();
+
+        // Auto-refresh every 5 seconds
+        setInterval(loadLatestEntries, 5000);
+    </script>
+
+</body>
+</html>
