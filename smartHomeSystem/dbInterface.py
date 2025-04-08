@@ -4,31 +4,34 @@ from datetime import datetime, timedelta
 class DBInterface:
     def __init__(self, dbName="smart_home_mgmt.db"):
         self.dbName = dbName
-        #self.initializeDatabase()
+        self.initializeDatabase()
 
-    #def initializeDatabase(self):
-    #    conn = sqlite3.connect(self.dbName)
-    #    cursor = conn.cursor()
-    #    cursor.execute('''
-    #        CREATE TABLE IF NOT EXISTS energyUsage (
-    #            deviceId INTEGER PRIMARY KEY AUTOINCREMENT,
-    #            applianceName TEXT NOT NULL,
-    #            timeStamp TEXT NOT NULL,
-    #            powerConsumption REAL NOT NULL
-    #        )
-    #    ''')
-    #    conn.commit()
-    #    conn.close()
+    def initializeDatabase(self):
+        conn = sqlite3.connect(self.dbName)
+        cursor = conn.cursor()
+        cursor.execute('DROP TABLE IF EXISTS energyUsage')  # only for clean testing
+        cursor.execute('''
+            CREATE TABLE energyUsage (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                deviceId TEXT NOT NULL,
+                applianceName TEXT NOT NULL,
+                timeStamp TEXT NOT NULL,
+                powerConsumption REAL NOT NULL
+            )
+        ''')
+        conn.commit()
+        conn.close()
 
-    def insertData(self, applianceName, powerConsumption, timestamp):
+    def insertData(self, applianceName, powerConsumption, timestamp, deviceId):
         conn = sqlite3.connect(self.dbName)
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO energyUsage (applianceName, timeStamp, powerConsumption)
-            VALUES (?, ?, ?)
-        ''', (applianceName, timestamp, powerConsumption))
+            INSERT INTO energyUsage (deviceId, applianceName, timeStamp, powerConsumption)
+            VALUES (?, ?, ?, ?)
+        ''', (deviceId, applianceName, timestamp, powerConsumption))
         conn.commit()
         conn.close()
+
 
     def fetchLatestEntries(self, limit=100):
         conn = sqlite3.connect(self.dbName)
