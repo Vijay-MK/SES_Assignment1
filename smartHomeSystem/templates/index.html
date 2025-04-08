@@ -2,41 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Latest Power Consumption Entries</title>
+    <title>Smart Home Energy Monitoring System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 40px;
             background-color: #f0f2f5;
         }
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+	    text-align: center;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         h2 {
-            color: #333;
+            font-size: 22px;
+            color: #34495e;
+            margin: 0;
+        }
+        .refresh-icon {
+            font-size: 16px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            color: #2980b9;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         table {
-            width: 90%;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         th, td {
-            padding: 10px 14px;
-            border: 1px solid #ccc;
+            padding: 12px 16px;
+            border-bottom: 1px solid #ddd;
             text-align: left;
         }
         th {
-            background-color: #e8e8e8;
+            background-color: #ecf0f1;
+            font-weight: 600;
+            color: #2c3e50;
         }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .appliance-icon {
+            margin-right: 8px;
+            color: #7f8c8d;
+        }
+        .power-low {
+            color: green;
+            font-weight: bold;
+        }
+        .power-medium {
+            color: orange;
+            font-weight: bold;
+        }
+        .power-high {
+            color: red;
+            font-weight: bold;
+        }
+
+        .legend {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 12px 16px;
+            border-left: 4px solid #ccc;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            font-size: 15px;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin-right: 25px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 6px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .legend-low { background-color: green; }
+        .legend-medium { background-color: orange; }
+        .legend-high { background-color: red; }
     </style>
 </head>
 <body>
 
-    <h2>Latest Power Consumption Entries (Auto Refresh Every 5s)</h2>
-    <table id="latest-entries-table">
+    <h1>Smart Home Energy Monitoring System</h1>
+
+    <div class="section-header">
+        <h2>
+            Latest Power Consumption
+            <i class="fas fa-sync-alt refresh-icon" id="refresh-spinner" style="display: none;"></i>
+        </h2>
+    </div>
+
+    <table>
         <thead>
             <tr>
-                <th>Appliance Name</th>
-                <th>Timestamp</th>
-                <th>Power Consumption (Watts)</th>
+                <th><i class="fas fa-plug appliance-icon"></i>Appliance Name</th>
+                <th><i class="fas fa-clock appliance-icon"></i>Timestamp</th>
+                <th><i class="fas fa-bolt appliance-icon"></i>Power (W)</th>
             </tr>
         </thead>
         <tbody id="latest-entries-body">
@@ -44,34 +125,60 @@
         </tbody>
     </table>
 
+    <!-- 🔹 Legend -->
+    <div class="legend">
+        <strong>Power Levels:</strong>
+        <span class="legend-item"><span class="legend-color legend-low"></span>Low (&lt; 20W)</span>
+        <span class="legend-item"><span class="legend-color legend-medium"></span>Medium (20–39W)</span>
+        <span class="legend-item"><span class="legend-color legend-high"></span>High (≥ 40W)</span>
+    </div>
+
     <script>
+        const iconMap = {
+            "Smart-AirConditioner": "fa-wind",
+            "Smart-WaterHeater": "fa-hot-tub",
+            "Smart-Refrigerator": "fa-snowflake",
+            "Smart-WashingMachine": "fa-soap"
+        };
+
+        function getPowerClass(power) {
+            if (power >= 40) return 'power-high';
+            else if (power >= 20) return 'power-medium';
+            else return 'power-low';
+        }
+
         function loadLatestEntries() {
+            const spinner = document.getElementById("refresh-spinner");
+            spinner.style.display = "inline-block";
+
             fetch('/api/latest')
                 .then(response => response.json())
                 .then(data => {
                     const tableBody = document.getElementById('latest-entries-body');
-                    tableBody.innerHTML = ''; // Clear existing rows
+                    tableBody.innerHTML = '';
 
-                    // Only take the latest 5 entries (they are already sorted DESC)
                     data.slice(0, 5).forEach(entry => {
                         const row = document.createElement('tr');
+                        const iconClass = iconMap[entry.applianceName] || "fa-plug";
+                        const powerClass = getPowerClass(entry.powerConsumption);
+
                         row.innerHTML = `
-                            <td>${entry.applianceName}</td>
+                            <td><i class="fas ${iconClass} appliance-icon"></i>${entry.applianceName}</td>
                             <td>${entry.timeStamp}</td>
-                            <td>${entry.powerConsumption}</td>
+                            <td class="${powerClass}">${entry.powerConsumption}</td>
                         `;
                         tableBody.appendChild(row);
                     });
                 })
                 .catch(error => {
                     console.error('Error fetching latest entries:', error);
+                })
+                .finally(() => {
+                    setTimeout(() => spinner.style.display = "none", 300);
                 });
         }
 
-        // Initial load
         loadLatestEntries();
-
-        // Auto-refresh every 5 seconds
         setInterval(loadLatestEntries, 5000);
     </script>
 
