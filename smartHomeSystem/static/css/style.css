@@ -1,0 +1,117 @@
+/* Overall Page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 40px;
+    background-color: #f0f2f5;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #34495e;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+/* Table container */
+.table-container {
+    width: 90%;
+    margin: 20px auto;
+    background: #ffffff;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px 18px;
+    text-align: left;
+}
+
+th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+td {
+    background-color: #ffffff;
+    color: #34495e;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+tr:hover td {
+    background-color: #eaf2f8;
+}
+
+/* Appliance icon in row */
+td .appliance-icon {
+    margin-right: 8px;
+    color: #2980b9;
+}
+
+/* Table top icon */
+.table-header-icon {
+    font-size: 1.4rem;
+    color: #2980b9;
+}
+
+/* Responsive tweak */
+@media (max-width: 600px) {
+    th, td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+#latest-entries-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#latest-entries-table th,
+#latest-entries-table td {
+    vertical-align: middle;
+}
+
+.icon-left {
+    margin-right: 8px;
+    color: #3498db;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+

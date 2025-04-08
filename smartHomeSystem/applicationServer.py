@@ -26,20 +26,28 @@ class EnergyMonitorServer:
             rows = self.db.fetchLatestEntries()
             # Converting tuple results to list of dictionaries.
             latest_entries = [
-                {
-                    'applianceName': row[2],
-                    'timeStamp': row[3],
-                    'powerConsumption': row[4]
+                    {
+                        'applianceName': row[2],
+                        'timeStamp': row[3],
+                        'powerConsumption': row[4]
 
-                } for row in rows
-            ]
+                        } for row in rows
+                    ]
             return jsonify(latest_entries)
 
         @self.app.route('/api/real_time')
         def api_real_time():
             rows = self.db.getRealTimePowerConsumptionPerDevice()
-            data = [{'applianceName': row[0], 'totalPower': row[1]} for row in rows]
-            return jsonify(data)
+            real_time_data = [
+                    {
+                        'applianceName': row[0],
+                        'totalPowerConsumption': row[1]
+                        } for row in rows
+                    ]
+            print(rows)
+            print("realtime")
+            print(real_time_data)
+            return jsonify(real_time_data)
 
         @self.app.route('/api/average')
         def api_average():
@@ -59,20 +67,20 @@ class EnergyMonitorServer:
             # Returns highest consuming device for various time periods.
             results = self.db.getHighestPowerConsumingDevices()
             data = {
-                period: {
-                    'applianceName': result[0] if result else None,
-                    'totalPower': result[1] if result else 0
-                } for period, result in results.items()
-            }
+                    period: {
+                        'applianceName': result[0] if result else None,
+                        'totalPower': result[1] if result else 0
+                        } for period, result in results.items()
+                    }
             return jsonify(data)
 
         @self.app.route('/api/trend')
         def api_trend():
             rows = self.db.getPowerConsumptionTrend()
             data = [
-                {'applianceName': row[0], 'hourSlot': row[1], 'totalPower': row[2]}
-                for row in rows
-            ]
+                    {'applianceName': row[0], 'hourSlot': row[1], 'totalPower': row[2]}
+                    for row in rows
+                    ]
             return jsonify(data)
 
         @self.app.route('/api/daily')

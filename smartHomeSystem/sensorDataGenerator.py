@@ -41,7 +41,7 @@ if __name__ == "__main__":
             )
             SensorDataGenerator(devicename, deviceId, random_time)
         currentDate += timedelta(days=1)
-        time.sleep(5)  
+        time.sleep(1)  # Past data generation should be fast
 
     # Generating the current deviceData after the generation of the past data
     currentDate = datetime.now()
