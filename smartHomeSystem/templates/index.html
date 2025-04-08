@@ -34,10 +34,9 @@
     <table id="latest-entries-table">
         <thead>
             <tr>
-                <th>Device ID</th>
                 <th>Appliance Name</th>
-                <th>Power Consumption (Watts)</th>
                 <th>Timestamp</th>
+                <th>Power Consumption (Watts)</th>
             </tr>
         </thead>
         <tbody id="latest-entries-body">
@@ -57,10 +56,9 @@
                     data.slice(0, 5).forEach(entry => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${entry.deviceId}</td>
                             <td>${entry.applianceName}</td>
-                            <td>${entry.powerConsumption}</td>
                             <td>${entry.timeStamp}</td>
+                            <td>${entry.powerConsumption}</td>
                         `;
                         tableBody.appendChild(row);
                     });

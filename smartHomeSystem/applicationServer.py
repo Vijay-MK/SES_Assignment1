@@ -27,10 +27,9 @@ class EnergyMonitorServer:
             # Converting tuple results to list of dictionaries.
             latest_entries = [
                 {
-                    'deviceId': row[1],
-                    'powerConsumption': row[2],
-                    'applianceName': row[3],
-                    'timeStamp': row[4]
+                    'applianceName': row[2],
+                    'timeStamp': row[3],
+                    'powerConsumption': row[4]
 
                 } for row in rows
             ]

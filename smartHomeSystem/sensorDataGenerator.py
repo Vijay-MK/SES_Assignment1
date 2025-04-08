@@ -14,6 +14,7 @@ logger.info("DBInterface initialized")
 def SensorDataGenerator(name, deviceId, timestamp=datetime.now()):
     '''This function generates random sensor data and stores it in the DB.'''
     powerConsumption = random.randint(0, 50)
+    timestamp = timestamp.replace(microsecond=0)
     db.insertData(applianceName=name, powerConsumption=powerConsumption, timestamp=timestamp, deviceId=deviceId)
     logger.info(f"Data inserted for {name} with deviceId {deviceId} at {timestamp} into the table")
 
