@@ -15,8 +15,15 @@
 
     <h1>Smart Home Energy Monitoring System</h1>
 
+
+
+
+
     <!-- Latest Entries Section -->
-    <h2><i class="fas fa-bolt table-header-icon"></i> Latest Power Consumption</h2>
+    <h2 class="section-heading">
+	  Latest Power Consumption
+	  <span id="latest-loading" class="refresh-icon"><i class="fas fa-sync fa-spin"></i></span>
+    </h2>
     <div class="table-container">
         <table id="latest-entries-table">
             <thead>
@@ -33,17 +40,15 @@
     </div>
 
     <!-- Real-Time Power Chart Section -->
-    <h2>Real-Time Power Consumption (Last 1 Minute)</h2>
+
+    <h2 class="section-heading">
+      Power Consumption Per Appliance in Last 1 Minute (Loads After 1 Minute)
+      <span id="chart-loading" class="refresh-icon"><i class="fas fa-sync fa-spin"></i></span>
+    </h2>
     <div class="chart-container">
         <canvas id="realTimeChart"></canvas>
     </div>
 
-    <!-- Legend for chart colors -->
-    <div class="legend-container">
-        <div><span class="legend-box" style="background-color: #27ae60;"></span> Lowest</div>
-        <div><span class="legend-box" style="background-color: #f39c12;"></span> Medium</div>
-        <div><span class="legend-box" style="background-color: #e74c3c;"></span> Highest</div>
-    </div>
 
     <script src="/static/js/main.js"></script>
 </body>

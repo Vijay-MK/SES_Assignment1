@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
         'Smart-WashingMachine': 'fa-soap'
     };
 
-   
+ 
+    const latestLoader = document.getElementById('latest-loading');
+
     // Load latest table entries
     function loadLatestEntries() {
         if (loader) loader.style.display = 'inline-block';
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 tableBody.innerHTML = '';
 		data.slice(0, 5).forEach(entry => {
 		const iconClass = iconMap[entry.applianceName] || 'fa-plug';
-		
+
 		const row = document.createElement('tr');
 		row.innerHTML = `
 		    <td><i class="fas ${iconClass} icon-left"></i> ${entry.applianceName}</td>
@@ -49,15 +51,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 5000);
 
 
+
     let chartInstance = null;
+    const chartLoader = document.getElementById('chart-loading');
     function loadRealTimeChart() {
+	if (chartLoader) chartLoader.style.display = 'inline-block';
+
         fetch('/api/real_time')
             .then(response => response.json())
             .then(data => {
+                console.log("Chart Data:", data); // Keep this for debugging
                 const labels = data.map(d => d.applianceName);
-                const values = data.map(d => d.powerConsumption);
+                const values = data.map(d => d.totalPowerConsumption); // FIXED here
     
-                // Normalize bar colors: min is green, max is red
                 const max = Math.max(...values);
                 const min = Math.min(...values);
                 const barColors = values.map(v => {
@@ -105,11 +111,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     });
                 }
+            if (chartLoader) chartLoader.style.display = 'none';
+
             })
             .catch(err => console.error("Chart Load Error:", err));
     }
     
     loadRealTimeChart();
-    setInterval(loadRealTimeChart, 5000); // auto-refresh every 5 seconds
+    setInterval(loadRealTimeChart, 5000);
+
 
 });

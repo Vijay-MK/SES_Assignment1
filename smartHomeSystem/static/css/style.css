@@ -115,3 +115,10 @@ td .appliance-icon {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.refresh-icon {
+  display: none;
+  margin-left: 8px;
+  font-size: 0.9em;
+  color: #666;
+}
+
