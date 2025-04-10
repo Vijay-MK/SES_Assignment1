@@ -122,3 +122,35 @@ td .appliance-icon {
   color: #666;
 }
 
+/* Peak Usage Table Styles */
+.peak-usage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.peak-usage-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.peak-usage-table td:first-child {
+    font-weight: 600;
+    color: #2c3e50;
+    width: 40%;
+}
+
+.peak-usage-table td.value {
+    color: #3498db;
+}
+
+.peak-usage-table tr:last-child td {
+    border-bottom: none;
+}
+
+.peak-usage-table i {
+    margin-right: 10px;
+    color: #2980b9;
+}
+

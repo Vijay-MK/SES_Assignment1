@@ -80,6 +80,23 @@ class DBInterface:
         rows = cursor.fetchall()
         conn.close()
         return rows
+    
+    def getPeakUsagePeriods(self):
+        conn = sqlite3.connect(self.dbName)
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT 
+                strftime('%Y-%m-%d %H:%M:%S', timeStamp) as peak_time,
+                ROUND(SUM(powerConsumption), 2) as total_power
+            FROM energyUsage 
+            WHERE datetime(timeStamp) >= datetime('now', '-24 hours')
+            GROUP BY strftime('%Y-%m-%d %H:00', timeStamp)
+            ORDER BY total_power DESC 
+            LIMIT 1
+        ''')
+        rows = cursor.fetchall()
+        conn.close()
+        return rows
 
     def getHighestPowerConsumingDevice(self, period):
         conn = sqlite3.connect(self.dbName)

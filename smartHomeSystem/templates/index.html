@@ -48,7 +48,26 @@
     <div class="chart-container">
         <canvas id="realTimeChart"></canvas>
     </div>
-
+    <script src="/static/js/main.js"></script>
+    <!-- Peak Power Usage Section -->
+    <h2 class="section-heading">
+        Peak Power Usage
+        <span id="peak-loading" class="refresh-icon"><i class="fas fa-sync fa-spin"></i></span>
+    </h2>
+    <div class="table-container">
+        <table class="peak-usage-table">
+            <tbody>
+                <tr>
+                    <td><i class="fas fa-clock"></i> Peak Usage Time</td>
+                    <td class="value" id="peakTime">Loading...</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-bolt"></i> Peak Power Value</td>
+                    <td class="value" id="peakPower">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <script src="/static/js/main.js"></script>
 </body>

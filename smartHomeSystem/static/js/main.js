@@ -122,3 +122,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
+function updatePeakUsage() {
+    fetch('/api/peak')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('peakTime').textContent = formatDateTime(data.peakTime);
+            document.getElementById('peakPower').textContent = formatPower(data.peakPower);
+        })
+        .catch(error => console.error('Error fetching peak usage:', error));
+}
+
+// Helper functions for formatting
+function formatDateTime(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleString() : 'N/A';
+}
+
+function formatPower(power) {
+    return power ? `${power.toFixed(2)} W` : 'N/A';
+}
+
+// Add this to your initialization code
+document.addEventListener('DOMContentLoaded', function() {
+    updatePeakUsage();
+    // Update every 5 minutes
+    setInterval(updatePeakUsage, 300000);
+});

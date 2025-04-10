@@ -7,7 +7,7 @@ from flask import Flask, render_template, jsonify
 from dbInterface import DBInterface
 
 class EnergyMonitorServer:
-    def __init__(self, db_path='smart_home_mgmt.db', host='0.0.0.0', port=5000):
+    def __init__(self, db_path='smart_home_mgmt.db', host='0.0.0.0', port=8000):
         self.app = Flask(__name__)
         self.host = host
         self.port = port
@@ -59,7 +59,10 @@ class EnergyMonitorServer:
         @self.app.route('/api/peak')
         def api_peak():
             rows = self.db.getPeakUsagePeriods()
-            data = [{'timeSlot': row[0], 'totalPower': row[1]} for row in rows]
+            data = {
+                    'peakTime': rows[0][0] if rows else None,
+                    'peakPower': rows[0][1] if rows else 0
+                    }
             return jsonify(data)
 
         @self.app.route('/api/highest')
@@ -91,4 +94,5 @@ class EnergyMonitorServer:
 
     def run(self):
         self.app.run(host=self.host, port=self.port)
+
 
