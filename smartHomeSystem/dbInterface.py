@@ -14,6 +14,21 @@ class FetchDataError(DatabaseError):
 class DeviceAnalyticsError(Exception):
     """Raised when power consumption analysis fails."""
 
+def retry_db_operation(retries=3, delay=1.0, exceptions=(sqlite3.OperationalError,)):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            attempt = 0
+            while attempt < retries:
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    attempt += 1
+                    if attempt == retries:
+                        raise
+                    time.sleep(delay)
+        return wrapper
+    return decorator
+
 class DBInterface:
     def __init__(self, dbName="smart_home_mgmt.db"):
         self.dbName = dbName
@@ -34,7 +49,8 @@ class DBInterface:
         ''')
         conn.commit()
         conn.close()
-
+    
+    @retry_db_operation(exceptions=(InsertDataError, sqlite3.OperationalError))
     def insertData(self, applianceName, powerConsumption, timestamp, deviceId):
         try:
             conn = sqlite3.connect(self.dbName)
@@ -57,6 +73,7 @@ class DBInterface:
         finally:
            conn.close()
 
+    @retry_db_operation(exceptions=(FetchDataError, sqlite3.OperationalError))
     def fetchLatestEntries(self, limit=100):
     try:
         with db_connection(self.dbName) as conn:
