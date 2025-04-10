@@ -1,5 +1,18 @@
 import sqlite3
 from datetime import datetime, timedelta
+from contextlib import contextmanager
+
+class DatabaseError(Exception):
+    """Base class for database-related exceptions."""
+
+class InsertDataError(DatabaseError):
+    """Raised when data insertion fails."""
+
+class FetchDataError(DatabaseError):
+    """Raised when data fetch fails."""
+
+class DeviceAnalyticsError(Exception):
+    """Raised when power consumption analysis fails."""
 
 class DBInterface:
     def __init__(self, dbName="smart_home_mgmt.db"):
@@ -11,39 +24,72 @@ class DBInterface:
         cursor = conn.cursor()
         cursor.execute('DROP TABLE IF EXISTS energyUsage')  # only for clean testing
         cursor.execute('''
-            CREATE TABLE energyUsage (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                deviceId TEXT NOT NULL,
-                applianceName TEXT NOT NULL,
-                timeStamp TEXT NOT NULL,
-                powerConsumption REAL NOT NULL
-            )
+           CREATE TABLE energyUsage (
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               deviceId TEXT NOT NULL,
+               applianceName TEXT NOT NULL,
+               timeStamp TEXT NOT NULL,
+               powerConsumption REAL NOT NULL
+             )
         ''')
         conn.commit()
         conn.close()
 
     def insertData(self, applianceName, powerConsumption, timestamp, deviceId):
-        conn = sqlite3.connect(self.dbName)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO energyUsage (deviceId, applianceName, timeStamp, powerConsumption)
-            VALUES (?, ?, ?, ?)
-        ''', (deviceId, applianceName, timestamp, powerConsumption))
-        conn.commit()
-        conn.close()
-
+        try:
+            conn = sqlite3.connect(self.dbName)
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO energyUsage (deviceId, applianceName, timeStamp, powerConsumption)
+                VALUES (?, ?, ?, ?)
+             ''', (deviceId, applianceName, timestamp, powerConsumption))
+            conn.commit()
+        except sqlite3.Error as e:
+            raise InsertDataError(f"Failed to insert data for {applianceName} at {timestamp}: {e}")
+        finally:
+            conn.close()
+    
+    @contextmanager
+    def db_connection(dbName):
+        conn = sqlite3.connect(dbName)
+        try:
+           yield conn
+        finally:
+           conn.close()
 
     def fetchLatestEntries(self, limit=100):
-        conn = sqlite3.connect(self.dbName)
-        cursor = conn.cursor()
-        cursor.execute('''
-            SELECT * FROM energyUsage
-            ORDER BY timeStamp DESC
-            LIMIT ?
-        ''', (limit,))
-        rows = cursor.fetchall()
+    try:
+        with db_connection(self.dbName) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT * FROM energyUsage
+                ORDER BY timeStamp DESC
+                LIMIT ?
+            ''', (limit,))
+            rows = cursor.fetchall()
+            return rows
+    except sqlite3.Error as e:
+        raise FetchDataError(f"Could not fetch latest entries: {e}")
+
+    def getHighestPowerConsumingDevice(self, period):
+        try:
+            conn = sqlite3.connect(self.dbName)
+            cursor = conn.cursor()
+            cursor.execute(f'''
+                 SELECT applianceName, SUM(powerConsumption) as totalPower FROM energyUsage 
+                 WHERE datetime(timeStamp) >= datetime('now', '{period}')
+                 GROUP BY applianceName ORDER BY totalPower DESC LIMIT 1
+             ''')
+            result = cursor.fetchone()
+            return result if result else (None, 0)
+    
+    except sqlite3.OperationalError as e:
+        logger.warning(f"[DB OPERATIONAL ERROR] Period: {period} → {e}")
+        raise DeviceAnalyticsError(f"Database operational error for period '{period}'") from e
+    
+    finally:
         conn.close()
-        return rows
+
 
     def getRealTimePowerConsumptionPerDevice(self):
         conn = sqlite3.connect(self.dbName)

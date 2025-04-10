@@ -18,36 +18,50 @@ class EnergyMonitorServer:
     def setup_routes(self):
         @self.app.route('/')
         def index():
-            return render_template('index.html')
-
+            try:
+                return render_template('index.html'
+                        )
+            except Exception as e:
+                logger.error(f"Error rendering index page: {e}")
+                return jsonify({'error': 'Internal server error'}), 500
+        
         @self.app.route('/api/latest')
         def api_latest():
-            # Using fetchLatestEntries from DBInterface.
-            rows = self.db.fetchLatestEntries()
-            # Converting tuple results to list of dictionaries.
-            latest_entries = [
+            try:
+                rows = self.db.fetchLatestEntries()
+                latest_entries = [
                     {
                         'applianceName': row[2],
                         'timeStamp': row[3],
                         'powerConsumption': row[4]
+                    } for row in rows
+                ]
+                return jsonify(latest_entries)
 
-                        } for row in rows
-                    ]
-            return jsonify(latest_entries)
+            except Exception as e:
+                logger.error(f"Error fetching latest entries: {e}")
+                return jsonify({'error': 'Failed to fetch latest data'}), 500
+
 
         @self.app.route('/api/real_time')
         def api_real_time():
-            rows = self.db.getRealTimePowerConsumptionPerDevice()
-            real_time_data = [
+            try:
+                rows = self.db.getRealTimePowerConsumptionPerDevice()
+                real_time_data = [
                     {
                         'applianceName': row[0],
                         'totalPowerConsumption': row[1]
-                        } for row in rows
-                    ]
-            print(rows)
-            print("realtime")
-            print(real_time_data)
-            return jsonify(real_time_data)
+                    } for row in rows
+                  ]
+                print(rows)
+                print("realtime")
+                print(real_time_data)
+                return jsonify(real_time_data)
+
+            except Exception as e:
+                logger.error(f"Error fetching real-time data: {e}")
+                return jsonify({'error': 'Failed to fetch real-time data'}), 500
+
 
         @self.app.route('/api/average')
         def api_average():
