@@ -83,12 +83,12 @@ class DBInterface:
             result = cursor.fetchone()
             return result if result else (None, 0)
     
-    except sqlite3.OperationalError as e:
-        logger.warning(f"[DB OPERATIONAL ERROR] Period: {period} → {e}")
-        raise DeviceAnalyticsError(f"Database operational error for period '{period}'") from e
+        except sqlite3.OperationalError as e:
+            logger.warning(f"[DB OPERATIONAL ERROR] Period: {period} → {e}")
+            raise DeviceAnalyticsError(f"Database operational error for period '{period}'") from e
     
-    finally:
-        conn.close()
+        finally:
+            conn.close()
 
 
     def getRealTimePowerConsumptionPerDevice(self):
@@ -195,6 +195,10 @@ class DBInterface:
         cursor = conn.cursor()
         cursor.execute('''DELETE FROM energyUsage''')
         conn.commit()
-        conn.close()
         print("Database cleared successfully.")
+        except sqlite3.Error as e:
+            print(f"An error occurred while clearing the database: {e}")
+        finally:
+            if 'conn' in locals():
+            conn.close()
 
