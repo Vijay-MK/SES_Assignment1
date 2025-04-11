@@ -8,20 +8,22 @@ mimetypes.init()
 from flask import Flask, render_template, jsonify
 from dbInterface import DBInterface
 
+#os.makedirs('logs', exist_ok=True)
+
+# Configure logging
+logging.basicConfig(
+    filename='logs/app.log',
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 class EnergyMonitorServer:
     def __init__(self, db_path='smart_home_mgmt.db', host='0.0.0.0', port=8000):
         self.app = Flask(__name__)
         self.host = host
         self.port = port
-        # Configure logging
-        logging.basicConfig(
-            filename='logs/app.log',
-            level=logging.INFO,
-            format='%(asctime)s [%(levelname)s] %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
-        self.logger = logging.getLogger(__name__)
         # Instantiate our DBInterface
         self.db = DBInterface(db_path)
         self.setup_routes()

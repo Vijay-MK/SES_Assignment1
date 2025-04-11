@@ -1,11 +1,8 @@
 import sqlite3
-import os
 from datetime import datetime, timedelta
 
 class DBInterface:
     def __init__(self, dbName="smart_home_mgmt.db"):
-        # Ensure the 'logs' directory exists
-        os.makedirs('logs', exist_ok=True)        
         self.dbName = dbName
         self.initializeDatabase()
 

@@ -6,12 +6,13 @@ import time
 import subprocess
 from applicationServer import EnergyMonitorServer
 
+os.makedirs('logs', exist_ok=True)
 
 MAIN_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_PATH = os.path.join(MAIN_DIR, 'network_latency.sh')
 SENSOR_GEN_SCRIPT = os.path.join(MAIN_DIR, 'sensorDataGenerator.py')
 
-def start_sensor_data_generator():   
+def start_sensor_data_generator():
     subprocess.run(["python3", SENSOR_GEN_SCRIPT])
 
 def start_flask_server():
