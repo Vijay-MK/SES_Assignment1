@@ -35,7 +35,7 @@ def SensorDataGenerator(name, deviceId, timestamp=datetime.now()):
                 "errorType": type(data_error).__name__,
                 "message": str(data_error)
             }
-            raise DatabaseInsertError(f"[ERROR] {error_context}", exc_info=True)
+        raise DatabaseInsertError(f"[ERROR] {error_context}", exc_info=True)
 
 if __name__ == "__main__":
     # Generate data for different devices for the past 30 days with varying times and dates
