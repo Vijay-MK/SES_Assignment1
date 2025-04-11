@@ -1,5 +1,6 @@
 import mimetypes
 import logging
+import os
 # Prevent mimetypes from reading restricted files.
 mimetypes.knownfiles = []
 mimetypes.init()
@@ -31,8 +32,7 @@ class EnergyMonitorServer:
         @self.app.route('/')
         def index():
             try:
-                return render_template('index.html'
-                        )
+                return render_template('index.html')
             except Exception as e:
                 logger.error(f"Error rendering index page: {e}")
                 return jsonify({'error': 'Internal server error'}), 500
