@@ -25,6 +25,8 @@ def periodically_apply_network_conditions():
         time.sleep(30)  # Change delay every 30 seconds
 
 if __name__ == "__main__":
+
+    os.makedirs('logs', exist_ok=True)
     # Start sensor data generator in a separate process
     sensor_process = multiprocessing.Process(target=start_sensor_data_generator)
     sensor_process.start()
