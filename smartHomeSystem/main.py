@@ -30,8 +30,8 @@ if __name__ == "__main__":
     sensor_process.start()
 
     # Start network delay simulation in a separate thread(This thread will affect at random times for the multiprocesses)
-    #net_delay_thread = threading.Thread(target=periodically_apply_network_conditions, daemon=True)
-    #net_delay_thread.start()
+    net_delay_thread = threading.Thread(target=periodically_apply_network_conditions, daemon=True)
+    net_delay_thread.start()
 
     # Delay to ensure DB has some data
     time.sleep(5)
