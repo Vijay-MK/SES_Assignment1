@@ -1,44 +1,21 @@
 #!/bin/bash
 
-# Default values
-INTERFACE="eth0"
-DEFAULT_DELAY=100  # Default delay value if no argument is passed
+IFACE="eth0"
+VALUE=$1
+MODE=$2
+LOGFILE="./logs/simulator_latency.log"
 
-# Check if the user wants to stop the delay
-if [ "$1" == "stop" ]; then
-    echo "Removing network delay from ${INTERFACE}..."
-    sudo tc qdisc del dev $INTERFACE root
-    echo "Network delay removed."
-    exit 0
-fi
+# Clear existing rules
+tc qdisc del dev $IFACE root 2>/dev/null
 
-# Check if a delay argument was passed
-if [ $# -eq 1 ]; then
-    DELAY=$1
+if [ "$MODE" == "loss" ]; then
+    echo "[`date`] Applying packet loss of ${VALUE}% on $IFACE" >> "$LOGFILE"
+    tc qdisc add dev $IFACE root netem loss "${VALUE}%"
+elif [ "$MODE" == "delay" ]; then
+    echo "[`date`] Applying delay of ${VALUE}ms on $IFACE" >> "$LOGFILE"
+    tc qdisc add dev $IFACE root netem delay "${VALUE}ms"
+elif [ "$MODE" == "reset" ]; then
+    echo "[`date`] Removing all network conditions on $IFACE" >> "$LOGFILE"
 else
-    DELAY=$DEFAULT_DELAY
+    echo "[`date`] Invalid mode: $MODE. Please use 'delay', 'loss', or 'reset'." >> "$LOGFILE"
 fi
-
-# Validate if the delay is a valid number
-if ! [[ "$DELAY" =~ ^[0-9]+$ ]]; then
-    echo "Error: Delay must be a positive integer."
-    exit 1
-fi
-
-# Show the current configuration
-echo "Applying a delay of ${DELAY}ms to the network interface ${INTERFACE}."
-
-# Clear existing qdisc if any
-echo "Removing existing qdisc..."
-sudo tc qdisc del dev $INTERFACE root 2>/dev/null
-
-# Add netem qdisc to introduce delay
-echo "Adding netem delay..."
-sudo tc qdisc add dev $INTERFACE root netem delay ${DELAY}ms
-
-# Verify the change
-echo "Network delay set to ${DELAY}ms."
-sudo tc -s qdisc show dev $INTERFACE
-
-exit 0
-

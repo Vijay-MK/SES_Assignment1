@@ -167,4 +167,53 @@ class DBInterface:
         rows = cursor.fetchall()
         conn.close()
         return rows
+        
+class ReliableDBInterface(DBInterface):
+    def __init__(self, dbName="smart_home_mgmt.db", max_retries=3, retry_delay=1):
+        super().__init__(dbName)
+        self.max_retries = max_retries
+        self.retry_delay = retry_delay
+        self.logger = logging.getLogger(__name__)
 
+    def retry_operation(self, operation, *args, **kwargs):
+        for attempt in range(self.max_retries):
+            try:
+                return operation(*args, **kwargs)
+            except sqlite3.OperationalError as e:
+                self.logger.warning(f"Attempt {attempt + 1} failed: {e}")
+                time.sleep(self.retry_delay)
+        self.logger.error(f"All {self.max_retries} retries failed for operation: {operation.__name__}")
+        return None
+
+    def insertData(self, applianceName, powerConsumption, timestamp, deviceId):
+        return self.retry_operation(super().insertData, applianceName, powerConsumption, timestamp, deviceId)
+
+    def fetchLatestEntries(self, limit=100):
+        return self.retry_operation(super().fetchLatestEntries, limit)
+
+    def getRealTimePowerConsumptionPerDevice(self):
+        return self.retry_operation(super().getRealTimePowerConsumptionPerDevice)
+
+    def getAveragePowerUsagePerDevice(self):
+        return self.retry_operation(super().getAveragePowerUsagePerDevice)
+
+    def getPeakUsagePeriods(self):
+        return self.retry_operation(super().getPeakUsagePeriods)
+
+    def getHighestPowerConsumingDevice(self, period):
+        return self.retry_operation(super().getHighestPowerConsumingDevice, period)
+
+    def getHighestPowerConsumingDevices(self):
+        return self.retry_operation(super().getHighestPowerConsumingDevices)
+
+    def getPowerConsumptionTrend(self):
+        return self.retry_operation(super().getPowerConsumptionTrend)
+
+    def getDailyPowerUsageComparison(self):
+        return self.retry_operation(super().getDailyPowerUsageComparison)
+
+    def clearDatabase(self):
+        return self.retry_operation(super().clearDatabase)
+
+    def getAveragePowerTrend(self):
+        return self.retry_operation(super().getAveragePowerTrend)
