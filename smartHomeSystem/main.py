@@ -6,7 +6,6 @@ import time
 import subprocess
 from applicationServer import EnergyMonitorServer
 
-os.makedirs('logs', exist_ok=True)
 
 MAIN_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_PATH = os.path.join(MAIN_DIR, 'network_latency.sh')
