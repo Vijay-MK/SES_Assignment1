@@ -208,11 +208,12 @@ class DBInterface:
         return rows
 
     def clearDatabase(self):
-        conn = sqlite3.connect(self.dbName)
-        cursor = conn.cursor()
-        cursor.execute('''DELETE FROM energyUsage''')
-        conn.commit()
-        print("Database cleared successfully.")
+        try:
+            conn = sqlite3.connect(self.dbName)
+            cursor = conn.cursor()
+            cursor.execute('''DELETE FROM energyUsage''')
+            conn.commit()
+            print("Database cleared successfully.")
         except sqlite3.Error as e:
             print(f"An error occurred while clearing the database: {e}")
         finally:
