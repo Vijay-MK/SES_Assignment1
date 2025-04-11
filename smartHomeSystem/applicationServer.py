@@ -8,7 +8,7 @@ mimetypes.init()
 from flask import Flask, render_template, jsonify
 from dbInterface import DBInterface
 
-#os.makedirs('logs', exist_ok=True)
+os.makedirs('logs', exist_ok=True)
 
 # Configure logging
 logging.basicConfig(
