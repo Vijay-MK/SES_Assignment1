@@ -218,5 +218,5 @@ class DBInterface:
             print(f"An error occurred while clearing the database: {e}")
         finally:
             if 'conn' in locals():
-            conn.close()
+                conn.close()
 
