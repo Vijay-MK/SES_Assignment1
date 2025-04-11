@@ -75,18 +75,18 @@ class DBInterface:
 
     @retry_db_operation(exceptions=(FetchDataError, sqlite3.OperationalError))
     def fetchLatestEntries(self, limit=100):
-    try:
-        with db_connection(self.dbName) as conn:
-            cursor = conn.cursor()
-            cursor.execute('''
-                SELECT * FROM energyUsage
-                ORDER BY timeStamp DESC
-                LIMIT ?
-            ''', (limit,))
-            rows = cursor.fetchall()
+        try:
+            with db_connection(self.dbName) as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    SELECT * FROM energyUsage
+                    ORDER BY timeStamp DESC
+                    LIMIT ?
+                ''', (limit,))
+                rows = cursor.fetchall()
             return rows
-    except sqlite3.Error as e:
-        raise FetchDataError(f"Could not fetch latest entries: {e}")
+        except sqlite3.Error as e:
+            raise FetchDataError(f"Could not fetch latest entries: {e}")
 
     def getHighestPowerConsumingDevice(self, period):
         try:
