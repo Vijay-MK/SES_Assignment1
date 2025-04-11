@@ -7,7 +7,7 @@ from applicationServer import EnergyMonitorServer
 
 MAIN_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_PATH = os.path.join(MAIN_DIR, 'network_delay.sh')
-SENSOR_GEN_SCRIPT = os.path.join(SCRIPT_DIR, 'sensorDataGenerator.py')
+SENSOR_GEN_SCRIPT = os.path.join(MAIN_DIR, 'sensorDataGenerator.py')
 
 def start_sensor_data_generator():
     subprocess.run(["python3", SENSOR_GEN_SCRIPT])
