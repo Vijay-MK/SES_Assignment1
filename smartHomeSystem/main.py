@@ -1,4 +1,8 @@
+import os
+import argparse
 import multiprocessing
+import threading
+import random
 import time
 import subprocess
 from applicationServer import EnergyMonitorServer
@@ -18,6 +22,8 @@ def start_sensor_data_generator(with_error_handling=False):
     cmd= ["python3", SENSOR_GEN_SCRIPT ]
     if with_error_handling:
         cmd.append("--error_handling_start")
+        print(cmd)
+    print("No error handling, normal mode")
     subprocess.run(cmd)
 
 def start_flask_server(enable_retry=False,log_file_path=None):
@@ -65,10 +71,7 @@ if __name__ == "__main__":
     time.sleep(5)
 
     # Start the Flask server
-    if args.enable_retry:
-        start_flask_server(enable_retry=True, log_file_path=SIMULATOR_LOG_FILE)
-    else:
-        start_flask_server()
+    start_flask_server()
 
     # Optional: Start latency simulator
     if args.simulator_latency:
