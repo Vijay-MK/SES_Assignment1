@@ -3,7 +3,7 @@ import random
 import logging
 import logging.config
 from datetime import datetime, timedelta
-from dbInterface import DBInterface, retryDBInterface
+from dbInterface import DBInterface, ReliableDBInterface
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger()
@@ -16,7 +16,7 @@ if use_reliable:
 else:
     db = DBInterface("smart_home_mgmt.db")
     logger.info("DBInterface initialized")
-    
+
 def SensorDataGenerator(name, deviceId, timestamp=datetime.now()):
     '''This function generates random sensor data and stores it in the DB.'''
     powerConsumption = random.randint(0, 50)
