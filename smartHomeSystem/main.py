@@ -10,7 +10,7 @@ from applicationServer import EnergyMonitorServer
 MAIN_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPT_PATH = os.path.join(MAIN_DIR, 'network_latency.sh')
 SENSOR_GEN_SCRIPT = os.path.join(MAIN_DIR, 'sensorDataGenerator.py')
-SIMULATOR_LOG_FILE = os.path.join(MAIN_DIR, 'logs', 'simulator_latency.log')
+SIMULATOR_LOG_FILE = os.path.join(MAIN_DIR, 'logs', 'simulatorLatency.log')
 
 os.makedirs(os.path.join(MAIN_DIR, 'logs'), exist_ok=True)
 
@@ -23,7 +23,7 @@ def start_sensor_data_generator(with_error_handling=False):
     if with_error_handling:
         cmd.append("--error_handling_start")
         print(cmd)
-    print("No error handling, normal mode")
+    #print("No error handling, normal mode")
     subprocess.run(cmd)
 
 def start_flask_server(enable_retry=False,log_file_path=None):

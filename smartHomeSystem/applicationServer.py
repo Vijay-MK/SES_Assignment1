@@ -44,15 +44,11 @@ class EnergyMonitorServer:
                         'totalPowerConsumption': row[1]
                         } for row in rows
                     ]
-            print(rows)
-            print("realtime")
-            print(real_time_data)
             return jsonify(real_time_data)
 
         @self.app.route('/api/average')
         def api_average():
             rows = self.db.getAveragePowerUsagePerDevice()
-            print(rows)
             data = [{'applianceName': row[0], 'averagePower': row[1]} for row in rows]
             return jsonify(data)
 
