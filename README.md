@@ -16,7 +16,7 @@ This project simulates a Smart Home Energy Monitoring System using a Raspberry P
 2. cd smartHomeSystem
 3. Source envForSmartHomeSystem/bin/activate
 5. Run - python main.py
-6. Access the Web Dashboard. Open your browser and navigate to: http://<raspberry-pi-ip>:8000/
+6. Access the Web Dashboard. Open your browser and navigate to: http:raspberry-pi-ip:8000/ (http:127.0.0.1:8000/)
 
 
 ### Directory Structure
