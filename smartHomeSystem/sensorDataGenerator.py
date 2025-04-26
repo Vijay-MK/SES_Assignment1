@@ -28,6 +28,7 @@ def SensorDataGenerator(name, deviceId, timestamp=datetime.now()):
 if __name__ == "__main__":
     # Generate data for different devices for the past 30 days with varying times and dates
         # Include an invalid appliance to trigger error handling
+    if '--error_handling_start' in sys.argv:
         Devices = {
             "Smart-AirConditioner": "0001",
             "Smart-WaterHeater": "0002",
