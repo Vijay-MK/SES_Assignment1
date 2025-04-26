@@ -23,9 +23,9 @@ This project simulates a Smart Home Energy Monitoring System using a Raspberry P
 <pre>
 smartHomeSystem/                                                 
   ├── main.py                  # Entry point to start server and data generator
-  ├── sensorDataGenerator.py   # Simulates real-time sensor data for appliances
   ├── applicationServer.py     # Flask web server exposing APIs for data access
   ├── dbInterface.py           # Database interface with retry logic
+  ├── sensorDataGenerator.py   # Simulates real-time sensor data for appliances
   ├── static/                  # Static files (CSS, JavaScript) for the web dashboard
   ├── templates/               # HTML templates for the Flask server
   ├── network_latency.sh       # Script to simulate network latency (optional)
