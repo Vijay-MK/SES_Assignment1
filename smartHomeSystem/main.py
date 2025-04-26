@@ -57,7 +57,7 @@ def periodically_apply_network_conditions():
         subprocess.run(['bash', SCRIPT_PATH, '0', 'reset'])
         log_event(f"Reverted {mode} of {value}")
 
-        time.sleep(30)
+        time.sleep(5)
 
 if __name__ == "__main__":
 

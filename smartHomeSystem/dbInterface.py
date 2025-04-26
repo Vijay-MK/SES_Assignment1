@@ -180,6 +180,9 @@ class ReliableDBInterface(DBInterface):
     def retry_operation(self, operation, *args, **kwargs):
         for attempt in range(self.max_retries):
             try:
+                 # Simulate an error for testing purposes
+                if operation.__name__ == "insertData" and args[0] == "Invalid-Appliance":
+                   raise sqlite3.OperationalError(f"Invalid applianceName: {args[0]}")
                 return operation(*args, **kwargs)
             except sqlite3.OperationalError as e:
                 self.logger.warning(f"Attempt {attempt + 1} failed: {e}")
