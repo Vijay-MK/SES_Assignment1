@@ -2,3 +2,10 @@
 [2025-04-26 15:08:52] Network latency simulation DISABLED
 [2025-04-26 15:10:05] Starting system...
 [2025-04-26 15:10:37] Network latency simulation DISABLED
+[2025-04-26 15:13:57] Starting system...
+[2025-04-26 15:15:16] Network latency simulation ENABLED
+[2025-04-26 15:29:05] Starting system...
+[2025-04-26 15:29:34] Network latency simulation ENABLED
+[Saturday 26 April 2025 03:29:34 PM IST] Removing all network conditions on eth0
+[2025-04-26 15:29:34] Applying loss: 8
+[Saturday 26 April 2025 03:29:34 PM IST] Applying packet loss of 8% on eth0

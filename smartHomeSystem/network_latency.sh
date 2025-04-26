@@ -3,7 +3,7 @@
 IFACE="eth0"
 VALUE=$1
 MODE=$2
-LOGFILE="./logs/simulator_latency.log"
+LOGFILE="./logs/simulatorLatency.log"
 
 # Clear existing rules
 tc qdisc del dev $IFACE root 2>/dev/null
