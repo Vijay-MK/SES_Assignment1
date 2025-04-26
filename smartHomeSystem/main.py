@@ -44,6 +44,7 @@ def start_flask_server(enable_retry=False,log_file_path=None):
 def periodically_apply_network_conditions():
     while True:
         # Reset existing conditions
+        log_event("Resetting conditions")
         subprocess.run(['bash', SCRIPT_PATH, '0', 'reset'])
 
         mode = random.choice(["delay", "loss"])
