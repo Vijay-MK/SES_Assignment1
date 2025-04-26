@@ -22,20 +22,20 @@ This project simulates a Smart Home Energy Monitoring System using a Raspberry P
 ### Directory Structure
 <pre>
 smartHomeSystem/                                                 
-├── __pycache__/             # Auto-generated Python cache files
-├── envForSmartHomeSystem/   # Python virtual environment for easy setup
-├── logs/                    # Log files generated during system operation
-├── static/                  # Static files (CSS, JavaScript) for the web dashboard
-├── templates/               # HTML templates for the Flask server
-├── applicationServer.py     # Flask web server exposing APIs for data access
-├── dbInterface.py           # Database interface with retry logic
-├── logging.conf             # Logging configuration file
-├── main.py                  # Entry point to start server and data generator
-├── network_latency.sh       # Script to simulate network latency (optional)
-├── requirements.txt         # Python dependencies list
-├── sensorDataGenerator.py   # Simulates real-time sensor data for appliances
-├── smart_home_mgmt.db       # SQLite database storing appliance data
-└── README.md                # Project documentation
+  ├── main.py                  # Entry point to start server and data generator
+  ├── sensorDataGenerator.py   # Simulates real-time sensor data for appliances
+  ├── applicationServer.py     # Flask web server exposing APIs for data access
+  ├── dbInterface.py           # Database interface with retry logic
+  ├── static/                  # Static files (CSS, JavaScript) for the web dashboard
+  ├── templates/               # HTML templates for the Flask server
+  ├── network_latency.sh       # Script to simulate network latency (optional)
+  ├── __pycache__/             # Auto-generated Python cache files
+  ├── envForSmartHomeSystem/   # Python virtual environment for easy setup
+  ├── logs/                    # Log files generated during system operation
+  ├── logging.conf             # Logging configuration file
+  ├── requirements.txt         # Python dependencies list 
+  ├── smart_home_mgmt.db       # SQLite database storing appliance data
+  └── README.md                # Project documentation
 </pre>
 
 ### Remote Access Setup (For Team Members)
